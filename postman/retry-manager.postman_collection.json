@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "261f6a72-9b23-497d-a868-a022c1b7c473",
+		"name": "retry-manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6118536"
+	},
+	"item": [
+		{
+			"name": "generate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"to\": \"https://pokeapiii.co/api/v2/pokemon/3\",\r\n    \"method\": \"get\",\r\n    \"frequency\": 9,\r\n    \"headers\": {\r\n        \"IP\": 123,\r\n        \"x-flow-country\": \"cl\"\r\n    },\r\n    \"data\": {\r\n        \"hola\": 12\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/messages/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"messages",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
