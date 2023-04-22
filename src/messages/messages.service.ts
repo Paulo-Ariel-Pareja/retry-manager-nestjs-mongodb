@@ -3,8 +3,7 @@ import { Model, PaginateModel } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { HttpService } from '@nestjs/axios';
-import { catchError, firstValueFrom } from 'rxjs';
-import { AxiosError } from 'axios';
+import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
 
 import { CreateMessageDto } from './dto/create-message.dto';
@@ -53,55 +52,30 @@ export class MessagesService {
     }
     for (let index = 0; index < processData.length; index++) {
       const element = processData[index];
-      switch (element.method.toLocaleUpperCase()) {
-        case 'GET':
-          try {
+
+      try {
+        switch (element.method.toLocaleUpperCase()) {
+          case 'GET':
             await this.getMethod(element.toObject());
-            await this.model.deleteOne({ _id: element._id });
-          } catch (error) {
-            this.handlerError(element);
-          }
-          break;
-
-        case 'POST':
-          try {
+            break;
+          case 'POST':
             await this.postMethod(element.toObject());
-            await this.model.deleteOne({ _id: element._id });
-          } catch (error) {
-            this.handlerError(element);
-          }
-          break;
-
-        case 'PATCH':
-          try {
+            break;
+          case 'PATCH':
             await this.patchMethod(element.toObject());
-            await this.model.deleteOne({ _id: element._id });
-          } catch (error) {
-            this.handlerError(element);
-          }
-          break;
-
-        case 'PUT':
-          try {
+            break;
+          case 'PUT':
             await this.putMethod(element.toObject());
-            await this.model.deleteOne({ _id: element._id });
-          } catch (error) {
-            this.handlerError(element);
-          }
-          break;
-
-        case 'DELETE':
-          try {
+            break;
+          case 'DELETE':
             await this.deleteMethod(element.toObject());
-            await this.model.deleteOne({ _id: element._id });
-          } catch (error) {
-            this.handlerError(element);
-          }
-          break;
-
-        default:
-          await this.model.deleteOne({ _id: element._id });
-          break;
+            break;
+          default:
+            break;
+        }
+        await this.model.deleteOne({ _id: element._id });
+      } catch (error) {
+        this.handlerError(element);
       }
     }
   }
